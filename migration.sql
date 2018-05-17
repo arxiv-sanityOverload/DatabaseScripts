@@ -1,0 +1,75 @@
+CREATE TABLE `arxivOverload`.`paper_metadata` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `arxiv_id` VARCHAR(40) NOT NULL,
+  `title` LONGTEXT CHARACTER SET 'utf8' NOT NULL,
+  `abstract` LONGTEXT NOT NULL,
+  `primary_category` VARCHAR(45) NULL DEFAULT NULL,
+  `all_categories` LONGTEXT NULL DEFAULT NULL,
+  `author` LONGTEXT CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `last_author` LONGTEXT CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `authors` LONGTEXT CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `published` VARCHAR(45) NULL DEFAULT NULL,
+  `journal_ref` LONGTEXT NULL DEFAULT NULL,
+  `comment` LONGTEXT NULL DEFAULT NULL,
+  `abs_page_link` VARCHAR(45) NULL DEFAULT NULL,
+  `pdf_link` VARCHAR(45) NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `arxivOverload`.`login` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `last_login` TIMESTAMP NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `arxivOverload`.`users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `login_id` INT(11) NOT NULL,
+  `first_name` CHAR NOT NULL,
+  `last_name` CHAR NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `github` VARCHAR(45) NULL DEFAULT 'null',
+  `linkedin` VARCHAR(45) NULL DEFAULT 'null',
+  `facebook` VARCHAR(45) NULL DEFAULT 'null',
+  `twitter` VARCHAR(45) NULL DEFAULT 'null',
+  `bio` TEXT NULL,
+  `image` BLOB NULL,
+  `is_active` BINARY NULL DEFAULT 1,
+  `is_admin` BINARY NULL DEFAULT 0,
+  `library_id` INT(11) NULL DEFAULT NULL,
+  `user_data_id` INT(11) NULL DEFAULT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NOW(),
+  `updated_at` TIMESTAMP NULL DEFAULT NOW() ON UPDATE NOW(),
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  UNIQUE INDEX `github_UNIQUE` (`github` ASC),
+  UNIQUE INDEX `linkedin_UNIQUE` (`linkedin` ASC),
+  UNIQUE INDEX `facebook_UNIQUE` (`facebook` ASC),
+  UNIQUE INDEX `twitter_UNIQUE` (`twitter` ASC));
+  
+  CREATE TABLE `arxivOverload`.`user_data` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `saved_papers` JSON NULL,
+  `tags` JSON NULL,
+  `stars` JSON NULL,
+  `recommendations` JSON NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  PRIMARY KEY (`id`));
+  
+CREATE TABLE `arxivOverload`.`paper_analytics` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `paper_metadata_id` INT(11) NOT NULL,
+  `tags` JSON NULL,
+  `views` INT(11) NULL DEFAULT 0,
+  `likes` INT(11) NULL DEFAULT 0,
+  `shares` INT(11) NULL DEFAULT 0,
+  `twitter_count` INT(11) NULL DEFAULT 0,
+  `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  PRIMARY KEY (`id`));
